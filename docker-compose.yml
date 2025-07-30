@@ -89,6 +89,7 @@ services:
     environment:
       DATABASE_URL: postgres://postgres:postgres@postgres-transactions:5432/transactions_db
       RABBITMQ_URL: amqp://guest:guest@rabbitmq:5672
+    command: sh -c "npx prisma migrate deploy && yarn start:dev"
     ports:
       - "3002:3012"
     volumes:
