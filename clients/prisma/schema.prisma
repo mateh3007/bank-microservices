@@ -6,10 +6,58 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model Address {
+  id           String   @id @default(uuid())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  street       String
+  number       String
+  complement   String?
+  neighborhood String
+  city         String
+  state        String
+  zipCode      String
+  country      String
+  clients      Client[]
+}
+
+model Client {
+  id           String   @id @default(uuid())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  fullname     String
+  email        String   @unique
+  password     String
+  registration String   @unique
+  dateOfBirth  DateTime
+  avatarFile   String
+  phone        String?
+
+  addressId    String
+  address      Address  @relation(fields: [addressId], references: [id])
+
+  bankAccounts BankAccount[]
+}
+
+model BankAccount {
+  id           String   @id @default(uuid())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  clientId     String
+  client       Client   @relation(fields: [clientId], references: [id])
+
+  agency       String
+  accountNumber String  @unique
+  bankName     String
+  balance      BigInt   @default(0)
 }
