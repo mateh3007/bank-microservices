@@ -1,28 +1,20 @@
-FROM node:20-alpine AS builder
+FROM node:22-alpine
 
-WORKDIR /app
+RUN apk add --no-cache tzdata
+ENV TZ=America/Sao_Paulo
 
-# Copia apenas arquivos necessários para instalação
+WORKDIR /usr/src/app
+
 COPY package*.json ./
-COPY prisma ./prisma/
-COPY tsconfig*.json ./
-COPY src ./src/
 
-RUN npm install
-RUN npm run build
+RUN apk add --no-cache yarn python3 make g++
+
+COPY . .
+
+RUN yarn install --frozen-lockfile
+
 RUN npx prisma generate
 
-# Etapa 2: imagem final
-FROM node:20-alpine
+EXPOSE 3010
 
-WORKDIR /app
-
-# Copia os arquivos da build anterior
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/prisma ./prisma
-COPY --from=builder /app/package.json ./package.json
-
-ENV NODE_ENV=production
-
-CMD ["node", "dist/main"]
+CMD ["yarn", "start:dev"]

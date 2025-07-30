@@ -1,16 +1,33 @@
 services:
-  postgres:
+  postgres-clients:
     image: postgres:15
-    container_name: postgres
+    container_name: postgres_clients
     restart: always
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: bank
+      POSTGRES_DB: clients_db
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - pgdata_clients:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+  postgres-transactions:
+    image: postgres:15
+    container_name: postgres_transactions
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: transactions_db
+    ports:
+      - "5434:5432"
+    volumes:
+      - pgdata_transactions:/var/lib/postgresql/data
+    networks:
+      - app-network
 
   redis:
     image: redis:latest
@@ -19,6 +36,8 @@ services:
       - "6379:6379"
     volumes:
       - redis_data:/data
+    networks:
+      - app-network
 
   rabbitmq:
     image: rabbitmq:3-management
@@ -31,38 +50,83 @@ services:
       RABBITMQ_DEFAULT_PASS: guest
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      - app-network
 
   microservice-clients:
     build:
       context: ./clients
+      dockerfile: Dockerfile
+    env_file:
+      - ./clients/.env
     container_name: clients
     depends_on:
-      - postgres
+      - postgres-clients
       - redis
       - rabbitmq
     environment:
-      DATABASE_URL: postgres://postgres:postgres@postgres:5432/bank
+      DATABASE_URL: postgres://postgres:postgres@postgres-clients:5432/clients_db
       REDIS_HOST: redis
       RABBITMQ_URL: amqp://guest:guest@rabbitmq:5672
+    command: sh -c "npx prisma migrate deploy && yarn start:dev"
     ports:
-      - "3001:3000"  # ou a porta que o serviço escuta
+      - "3001:3010"
+    volumes:
+      - ./clients:/usr/src/app
+    networks:
+      - app-network
 
   microservice-transactions:
     build:
       context: ./transactions
+      dockerfile: Dockerfile
+    env_file:
+      - ./transactions/.env
     container_name: transactions
     depends_on:
-      - postgres
+      - postgres-transactions
+      - rabbitmq
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@postgres-transactions:5432/transactions_db
+      RABBITMQ_URL: amqp://guest:guest@rabbitmq:5672
+    ports:
+      - "3002:3012"
+    volumes:
+      - ./transactions:/usr/src/app
+    networks:
+      - app-network
+
+
+  api-gateway:
+    build:
+      context: ./api-gateway
+      dockerfile: Dockerfile
+    env_file:
+      - ./api-gateway/.env
+    container_name: api_gateway
+    depends_on:
+      - microservice-clients
+      - microservice-transactions
       - redis
       - rabbitmq
     environment:
-      DATABASE_URL: postgres://postgres:postgres@postgres:5432/bank
+      CLIENTS_URL: http://microservice-clients:3010
+      TRANSACTIONS_URL: http://transactions:3012
       REDIS_HOST: redis
       RABBITMQ_URL: amqp://guest:guest@rabbitmq:5672
     ports:
-      - "3002:3000"
+      - "3000:3011"
+    volumes:
+      - ./api-gateway:/usr/src/app
+    networks:
+      - app-network
 
 volumes:
-  pgdata:
+  pgdata_clients:
+  pgdata_transactions:
   redis_data:
   rabbitmq_data:
+
+networks:
+  app-network:
+    driver: bridge
