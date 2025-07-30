@@ -2,6 +2,8 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from '../database/database.module';
 import { TransactionsModule } from '../transactions/transactions.module';
+import { ExceptionsModule } from '../exceptions';
+import { ClientsModule } from '../clients/clients.module';
 
 @Module({
   imports: [
@@ -9,6 +11,8 @@ import { TransactionsModule } from '../transactions/transactions.module';
       isGlobal: true,
     }),
     DatabaseModule,
+    ExceptionsModule,
+    ClientsModule,
     TransactionsModule,
   ],
   controllers: [],
