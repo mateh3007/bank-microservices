@@ -1,6 +1,5 @@
-import { AuthenticatedRequest } from '@application/use-cases/authentication/route-authentication';
 import { DeleteBankAccountUseCase } from '@application/use-cases/profile/delete/delete-bank-account.use-case';
-import { Controller, Delete, Req } from '@nestjs/common';
+import { Controller, Delete, Param } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { DeleteBankAccountResponses } from '@presentation/swagger/responses/profile/delete-bank-account.response';
 
@@ -11,9 +10,9 @@ export class DeleteBankAccountController {
     private readonly deleteBankAccountUseCase: DeleteBankAccountUseCase,
   ) {}
 
-  @Delete('delete')
+  @Delete('delete/:id')
   @DeleteBankAccountResponses
-  async delete(@Req() req: AuthenticatedRequest): Promise<void> {
-    return this.deleteBankAccountUseCase.execute(req.client.id);
+  async delete(@Param('id') id: string): Promise<void> {
+    return this.deleteBankAccountUseCase.execute(id);
   }
 }
