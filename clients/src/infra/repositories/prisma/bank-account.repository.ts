@@ -254,7 +254,7 @@ export class PrismaBankAccountRepository implements BankAccountRepository {
           agency: params.agency,
           accountNumber: params.accountNumber,
           bankName: params.bankName,
-          balance: BigInt(0),
+          balance: 0,
         },
       });
 
@@ -321,7 +321,7 @@ export class PrismaBankAccountRepository implements BankAccountRepository {
     });
   }
 
-  async addFunds(clientId: string, amount: bigint): Promise<boolean> {
+  async addFunds(clientId: string, amount: number): Promise<boolean> {
     const bankAccount = await this.prisma.bankAccount.findUnique({
       where: {
         clientId,
@@ -335,25 +335,24 @@ export class PrismaBankAccountRepository implements BankAccountRepository {
         id: bankAccount.id,
       },
       data: {
-        balance: BigInt(bankAccount.balance) + amount,
+        balance: bankAccount.balance + Number(amount),
       },
     });
 
     return true;
   }
 
-  async removeFunds(clientId: string, amount: bigint): Promise<boolean> {
+  async removeFunds(clientId: string, amount: number): Promise<boolean> {
     const bankAccount = await this.prisma.bankAccount.findUnique({
       where: { clientId },
     });
 
     if (!bankAccount) return false;
 
-    const currentBalance = BigInt(bankAccount.balance);
     await this.prisma.bankAccount.update({
       where: { id: bankAccount.id },
       data: {
-        balance: currentBalance - amount,
+        balance: bankAccount.balance - Number(amount),
       },
     });
 
@@ -361,26 +360,25 @@ export class PrismaBankAccountRepository implements BankAccountRepository {
   }
 
   async deposit(
-  clientId: string,
-  amount: bigint,
-): Promise<GetBankAccountDetailsReturn | void> {
-  const bankAccount = await this.prisma.bankAccount.findUnique({
-    where: { clientId },
-  });
+    clientId: string,
+    amount: number,
+  ): Promise<GetBankAccountDetailsReturn | void> {
+    const bankAccount = await this.prisma.bankAccount.findUnique({
+      where: { clientId },
+    });
 
-  if (!bankAccount) return;
+    if (!bankAccount) return;
 
-  const currentBalance = BigInt(bankAccount.balance);
+    const updatedBankAccount = await this.prisma.bankAccount.update({
+      where: { id: bankAccount.id },
+      data: {
+        balance: bankAccount.balance + Number(amount),
+      },
+    });
 
-  const updatedBankAccount = await this.prisma.bankAccount.update({
-    where: { id: bankAccount.id },
-    data: {
-      balance: currentBalance + amount,
-    },
-  });
-
-  return {
-    ...updatedBankAccount,
-    balance: String(updatedBankAccount.balance),
-  };
+    return {
+      ...updatedBankAccount,
+      balance: String(updatedBankAccount.balance),
+    };
+  }
 }

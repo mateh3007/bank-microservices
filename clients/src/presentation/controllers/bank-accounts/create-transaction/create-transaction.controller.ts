@@ -18,7 +18,7 @@ export class CreateTransactionController {
   ): Promise<boolean | void> {
     return await this.createTransactionUseCase.execute({
       ...createTransactionDto,
-      amount: BigInt(createTransactionDto.amount),
+      amount: createTransactionDto.amount,
     });
   }
 }

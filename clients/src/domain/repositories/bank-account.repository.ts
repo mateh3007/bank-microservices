@@ -23,11 +23,11 @@ export abstract class BankAccountRepository {
     clientId: string,
     params: UpdateBankAccountParams,
   ): Promise<GetBankAccountByIdReturn | void>;
-  abstract addFunds(clientId: string, amount: bigint): Promise<boolean>;
-  abstract removeFunds(clientId: string, amount: bigint): Promise<boolean>;
+  abstract addFunds(clientId: string, amount: number): Promise<boolean>;
+  abstract removeFunds(clientId: string, amount: number): Promise<boolean>;
   abstract delete(id: string): Promise<boolean>;
   abstract deposit(
     clientId: string,
-    amount: bigint,
+    amount: number,
   ): Promise<GetBankAccountDetailsReturn | void>;
 }

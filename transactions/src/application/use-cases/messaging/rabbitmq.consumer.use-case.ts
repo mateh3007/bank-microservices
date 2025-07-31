@@ -22,13 +22,7 @@ export class RabbitMQConsumerUseCase {
   async processTransactionEvent(data: ReceivedTransactionData) {
     try {
       this.logger.log('📥 RECEBIDO evento de transação:', data);
-      const sanitizedData = {
-        ...data,
-        amount: BigInt(data.amount),
-      };
-
-      const transaction =
-        await this.transactionRepository.create(sanitizedData);
+      const transaction = await this.transactionRepository.create(data);
       if (!transaction) {
         return this.exceptionsAdapter.internalServerError({
           message: 'Error on create transaction',

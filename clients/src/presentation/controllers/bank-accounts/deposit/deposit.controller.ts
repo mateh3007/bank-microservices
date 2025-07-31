@@ -17,7 +17,7 @@ export class DepositController {
   ): Promise<GetBankAccountDetailsReturn | void> {
     return await this.depositUseCase.execute({
       clientId: depositDto.clientId,
-      amount: BigInt(depositDto.amount),
+      amount: depositDto.amount,
     });
   }
 }

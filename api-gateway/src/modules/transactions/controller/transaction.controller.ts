@@ -9,14 +9,17 @@ export class TransactionController {
   constructor(private readonly transactionUseCase: TransactionUseCase) {}
 
   @ApiBearerAuth()
-  @Get(':id')
-  async getTransactionById(@Param('id') transactionId: string) {
-    return this.transactionUseCase.getTransactionById(transactionId);
+  @Get('get-all-transactions')
+  async GetAllTransactions(@Client('clientId') clientId: string) {
+    return this.transactionUseCase.getAllTransactions(clientId);
   }
 
   @ApiBearerAuth()
-  @Get('get-all')
-  async GetAllTransactions(@Client('clientId') clientId: string) {
-    return this.transactionUseCase.getAllTransactions(clientId);
+  @Get(':id')
+  async getTransactionById(
+    @Param('id') transactionId: string,
+    @Client('clientId') clientId: string,
+  ) {
+    return this.transactionUseCase.getTransactionById(transactionId, clientId);
   }
 }

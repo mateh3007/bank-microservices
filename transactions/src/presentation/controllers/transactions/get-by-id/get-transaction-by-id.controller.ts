@@ -11,9 +11,12 @@ export class GetTransactionByIdController {
     private readonly getTransactionByIdUseCase: GetTransactionByIdUseCase,
   ) {}
 
-  @Get(':id')
+  @Get('/:clientId/:id')
   @GetTransactionByIdResponses
-  async getById(@Param('id') id: string): Promise<TransactionEntity | void> {
-    return await this.getTransactionByIdUseCase.execute(id);
+  async getById(
+    @Param('id') id: string,
+    @Param('clientId') clientId: string,
+  ): Promise<TransactionEntity | void> {
+    return await this.getTransactionByIdUseCase.execute(id, clientId);
   }
 }

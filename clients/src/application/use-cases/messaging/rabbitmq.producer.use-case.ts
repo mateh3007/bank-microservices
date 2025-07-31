@@ -13,7 +13,7 @@ import {
 export interface TransactionEventExpectedInput {
   senderId: string;
   receiverId: string;
-  amount: bigint;
+  amount: number;
   description?: string;
 }
 

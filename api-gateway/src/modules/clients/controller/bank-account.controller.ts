@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpCode, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Post } from '@nestjs/common';
 import { Public } from 'src/common/decorators/public.decorator';
 import { BankAccountUseCase } from '../use-cases/bank-accounts/bank-accounts.use-case';
 import { LoginDto } from './dtos/auth/login.dto';
@@ -52,22 +52,11 @@ export class BankAccountController {
   @Post('create-transaction')
   async createTransaction(
     @Body() payload: CreateTransactionDto,
+    @Client('clientId') clientId: string,
   ): Promise<boolean | void> {
-    return await this.bankAccountUseCase.createTransaction(payload);
-  }
-
-  @Get('bank-details/:id')
-  async getBankDetails(@Param('id') id: string) {
-    return this.bankAccountUseCase.getBankAccountDetails(id);
-  }
-
-  @Get(':id')
-  async getBankAccount(@Param('id') id: string) {
-    return this.bankAccountUseCase.getBankAccount(id);
-  }
-
-  @Get('verify-exists/:id')
-  async verifyBankAccountExists(@Param('id') id: string) {
-    return this.bankAccountUseCase.verifyIfBankAccountExists(id);
+    return await this.bankAccountUseCase.createTransaction({
+      ...payload,
+      senderId: clientId,
+    });
   }
 }

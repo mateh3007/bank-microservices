@@ -20,6 +20,9 @@ export class MessagingController {
     this.logger.log('🎯 RECEBENDO mensagem: transacao.criada');
 
     await this.rabbitMQConsumerUseCase.processTransactionEvent(data);
-    await this.rabbitMQProducerUseCase.returnFeedbackTransactionEvent(data);
+    await this.rabbitMQProducerUseCase.returnFeedbackTransactionEvent({
+      ...data,
+      amount: data.amount,
+    });
   }
 }

@@ -7,15 +7,18 @@ import { TRANSACTION_URL } from 'src/shared/constants/transaction-url-constant';
 export class TransactionUseCase {
   constructor(private readonly httpGetFunction: HttpGetFunction) {}
 
-  async getTransactionById(id: string): Promise<TransactionReturn> {
+  async getTransactionById(
+    id: string,
+    clientId: string,
+  ): Promise<TransactionReturn> {
     return await this.httpGetFunction.requestGet(
-      `${TRANSACTION_URL}/api/v1/transactions/${id}`,
+      `${TRANSACTION_URL}/transactions/${clientId}/${id}`,
     );
   }
 
   async getAllTransactions(id: string): Promise<TransactionReturn[]> {
     return await this.httpGetFunction.requestGet(
-      `${TRANSACTION_URL}/api/v1/transactions/get-all/${id}`,
+      `${TRANSACTION_URL}/transactions/get-all/${id}`,
     );
   }
 }
