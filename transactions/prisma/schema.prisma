@@ -12,7 +12,7 @@ model Transaction {
   id          String            @id @default(uuid())
   senderId    String
   receiverId  String
-  amount      Float
+  amount      BigInt
   description String?
   status      TransactionStatus
   createdAt   DateTime          @default(now())
