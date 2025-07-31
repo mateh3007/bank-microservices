@@ -320,4 +320,46 @@ export class PrismaBankAccountRepository implements BankAccountRepository {
       });
     });
   }
+
+  async addFunds(clientId: string, amount: bigint): Promise<boolean> {
+    const bankAccount = await this.prisma.bankAccount.findFirst({
+      where: {
+        clientId,
+      },
+    });
+
+    if (!bankAccount) return false;
+
+    await this.prisma.bankAccount.update({
+      where: {
+        id: bankAccount.id,
+      },
+      data: {
+        balance: bankAccount.balance + amount,
+      },
+    });
+
+    return true;
+  }
+
+  async removeFunds(clientId: string, amount: bigint): Promise<boolean> {
+    const bankAccount = await this.prisma.bankAccount.findFirst({
+      where: {
+        clientId,
+      },
+    });
+
+    if (!bankAccount) return false;
+
+    await this.prisma.bankAccount.update({
+      where: {
+        id: bankAccount.id,
+      },
+      data: {
+        balance: bankAccount.balance - amount,
+      },
+    });
+
+    return true;
+  }
 }

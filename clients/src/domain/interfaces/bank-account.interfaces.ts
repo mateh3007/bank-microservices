@@ -96,3 +96,10 @@ export interface UpdateBankAccountParams {
   accountNumber?: string;
   bankName?: string;
 }
+
+export interface CreateTransactionParams {
+  senderId: string;
+  receiverId: string;
+  amount: bigint;
+  description?: string;
+}
