@@ -103,3 +103,8 @@ export interface CreateTransactionParams {
   amount: bigint;
   description?: string;
 }
+
+export interface DepositParams {
+  clientId: string;
+  amount: bigint;
+}

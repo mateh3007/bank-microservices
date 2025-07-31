@@ -26,4 +26,8 @@ export abstract class BankAccountRepository {
   abstract addFunds(clientId: string, amount: bigint): Promise<boolean>;
   abstract removeFunds(clientId: string, amount: bigint): Promise<boolean>;
   abstract delete(id: string): Promise<boolean>;
+  abstract deposit(
+    clientId: string,
+    amount: bigint,
+  ): Promise<GetBankAccountDetailsReturn | void>;
 }

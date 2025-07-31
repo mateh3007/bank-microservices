@@ -1,6 +1,5 @@
-import { AuthenticatedRequest } from '@application/use-cases/authentication/route-authentication';
 import { GetBankAccountByIdReturn } from '@domain/interfaces/bank-account.interfaces';
-import { Body, Controller, Patch, Req } from '@nestjs/common';
+import { Body, Controller, Param, Patch } from '@nestjs/common';
 import { UpdateBankAccountDto } from './dtos/update-bank-account.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { UpdateBankAccountUseCase } from '@application/use-cases/profile/update/update-bank-account.use-case';
@@ -13,12 +12,12 @@ export class UpdateBankAccountController {
     private readonly updateBankAccountUseCase: UpdateBankAccountUseCase,
   ) {}
 
-  @Patch('update')
+  @Patch('update/:id')
   @UpdateProfileResponses
   async update(
-    @Req() req: AuthenticatedRequest,
+    @Param('id') id: string,
     @Body() payload: UpdateBankAccountDto,
   ): Promise<GetBankAccountByIdReturn | void> {
-    return this.updateBankAccountUseCase.execute(req.client.id, payload);
+    return this.updateBankAccountUseCase.execute(id, payload);
   }
 }

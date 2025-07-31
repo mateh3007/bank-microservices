@@ -16,7 +16,6 @@ export class AuthenticationController {
   @HttpCode(HttpStatus.OK)
   @LoginResponses
   login(@Body() body: LoginDto): LoginUseCaseReturn {
-    console.log('Login payload:', body);
     return this.loginUseCase.login(body);
   }
 }
