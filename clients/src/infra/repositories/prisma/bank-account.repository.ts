@@ -18,7 +18,7 @@ export class PrismaBankAccountRepository implements BankAccountRepository {
     params: UpdateBankAccountParams,
   ): Promise<GetBankAccountByIdReturn | void> {
     return await this.prisma.$transaction(async (prisma) => {
-      const bankAccount = await prisma.bankAccount.findFirst({
+      const bankAccount = await prisma.bankAccount.findUnique({
         where: {
           clientId,
         },
@@ -99,7 +99,7 @@ export class PrismaBankAccountRepository implements BankAccountRepository {
     clientId: string,
   ): Promise<GetBankAccountByIdReturn | void> {
     return await this.prisma.$transaction(async (prisma) => {
-      const bankAccount = await prisma.bankAccount.findFirst({
+      const bankAccount = await prisma.bankAccount.findUnique({
         where: {
           clientId,
         },
@@ -196,7 +196,7 @@ export class PrismaBankAccountRepository implements BankAccountRepository {
   async getAccountDetails(
     clientId: string,
   ): Promise<GetBankAccountDetailsReturn | void> {
-    const bankAccount = await this.prisma.bankAccount.findFirst({
+    const bankAccount = await this.prisma.bankAccount.findUnique({
       where: { clientId },
     });
 
@@ -322,7 +322,7 @@ export class PrismaBankAccountRepository implements BankAccountRepository {
   }
 
   async addFunds(clientId: string, amount: bigint): Promise<boolean> {
-    const bankAccount = await this.prisma.bankAccount.findFirst({
+    const bankAccount = await this.prisma.bankAccount.findUnique({
       where: {
         clientId,
       },
@@ -343,7 +343,7 @@ export class PrismaBankAccountRepository implements BankAccountRepository {
   }
 
   async removeFunds(clientId: string, amount: bigint): Promise<boolean> {
-    const bankAccount = await this.prisma.bankAccount.findFirst({
+    const bankAccount = await this.prisma.bankAccount.findUnique({
       where: {
         clientId,
       },
@@ -361,5 +361,32 @@ export class PrismaBankAccountRepository implements BankAccountRepository {
     });
 
     return true;
+  }
+
+  async deposit(
+    clientId: string,
+    amount: bigint,
+  ): Promise<GetBankAccountDetailsReturn | void> {
+    const bankAccount = await this.prisma.bankAccount.findUnique({
+      where: {
+        clientId,
+      },
+    });
+
+    if (!bankAccount) return;
+
+    const updatedBankAccount = await this.prisma.bankAccount.update({
+      where: {
+        id: bankAccount.id,
+      },
+      data: {
+        balance: bankAccount.balance + amount,
+      },
+    });
+
+    return {
+      ...updatedBankAccount,
+      balance: String(updatedBankAccount.balance),
+    };
   }
 }

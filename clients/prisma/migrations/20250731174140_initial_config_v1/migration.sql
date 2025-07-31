@@ -53,6 +53,9 @@ CREATE UNIQUE INDEX "Client_email_key" ON "Client"("email");
 CREATE UNIQUE INDEX "Client_registration_key" ON "Client"("registration");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "BankAccount_clientId_key" ON "BankAccount"("clientId");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "BankAccount_accountNumber_key" ON "BankAccount"("accountNumber");
 
 -- AddForeignKey

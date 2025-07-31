@@ -42,7 +42,7 @@ model BankAccount {
   id            String   @id @default(uuid())
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
-  clientId      String
+  clientId      String   @unique
   agency        String
   accountNumber String   @unique
   bankName      String
