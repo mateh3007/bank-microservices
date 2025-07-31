@@ -6,7 +6,7 @@ export class GetAllTransactionsUseCase {
 
   async execute(accountId: string): Promise<TransactionEntity[]> {
     const transactions =
-      await this.transactionsRepository.getAllByAccountId(accountId);
+      await this.transactionsRepository.getAllBySenderAccountId(accountId);
 
     return transactions;
   }

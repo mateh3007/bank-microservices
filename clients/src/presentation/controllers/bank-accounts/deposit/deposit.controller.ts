@@ -2,13 +2,8 @@ import { Controller, Post, Body } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { DepositUseCase } from '@application/use-cases/bank-account/deposit/deposit.use-case';
 import { DepositResponses } from '@presentation/swagger/responses/bank-accounts/deposit.response';
-<<<<<<< HEAD
 import { GetBankAccountDetailsReturn } from '@domain/interfaces/bank-account.interfaces';
 import { DepositDto } from './dtos/deposit.dto';
-=======
-import { DepositDto } from './dtos/create-bank-account.dto';
-import { GetBankAccountDetailsReturn } from '@domain/interfaces/bank-account.interfaces';
->>>>>>> 04037905c977fa1bed9feac1828ae78fbf38fb0c
 
 @ApiTags('Bank Accounts')
 @Controller('bank-accounts')

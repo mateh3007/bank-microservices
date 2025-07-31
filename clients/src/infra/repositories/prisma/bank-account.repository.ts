@@ -335,7 +335,7 @@ export class PrismaBankAccountRepository implements BankAccountRepository {
         id: bankAccount.id,
       },
       data: {
-        balance: bankAccount.balance + amount,
+        balance: BigInt(bankAccount.balance) + amount,
       },
     });
 
@@ -344,19 +344,16 @@ export class PrismaBankAccountRepository implements BankAccountRepository {
 
   async removeFunds(clientId: string, amount: bigint): Promise<boolean> {
     const bankAccount = await this.prisma.bankAccount.findUnique({
-      where: {
-        clientId,
-      },
+      where: { clientId },
     });
 
     if (!bankAccount) return false;
 
+    const currentBalance = BigInt(bankAccount.balance);
     await this.prisma.bankAccount.update({
-      where: {
-        id: bankAccount.id,
-      },
+      where: { id: bankAccount.id },
       data: {
-        balance: bankAccount.balance - amount,
+        balance: currentBalance - amount,
       },
     });
 
@@ -364,29 +361,26 @@ export class PrismaBankAccountRepository implements BankAccountRepository {
   }
 
   async deposit(
-    clientId: string,
-    amount: bigint,
-  ): Promise<GetBankAccountDetailsReturn | void> {
-    const bankAccount = await this.prisma.bankAccount.findUnique({
-      where: {
-        clientId,
-      },
-    });
+  clientId: string,
+  amount: bigint,
+): Promise<GetBankAccountDetailsReturn | void> {
+  const bankAccount = await this.prisma.bankAccount.findUnique({
+    where: { clientId },
+  });
 
-    if (!bankAccount) return;
+  if (!bankAccount) return;
 
-    const updatedBankAccount = await this.prisma.bankAccount.update({
-      where: {
-        id: bankAccount.id,
-      },
-      data: {
-        balance: bankAccount.balance + amount,
-      },
-    });
+  const currentBalance = BigInt(bankAccount.balance);
 
-    return {
-      ...updatedBankAccount,
-      balance: String(updatedBankAccount.balance),
-    };
-  }
+  const updatedBankAccount = await this.prisma.bankAccount.update({
+    where: { id: bankAccount.id },
+    data: {
+      balance: currentBalance + amount,
+    },
+  });
+
+  return {
+    ...updatedBankAccount,
+    balance: String(updatedBankAccount.balance),
+  };
 }

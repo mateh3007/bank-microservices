@@ -45,7 +45,9 @@ export class PrismaTransactionRepository implements TransactionRepository {
     };
   }
 
-  async getAllByAccountId(accountId: string): Promise<TransactionEntity[]> {
+  async getAllBySenderAccountId(
+    accountId: string,
+  ): Promise<TransactionEntity[]> {
     const transactions = await this.prisma.transaction.findMany({
       where: {
         senderId: accountId,
