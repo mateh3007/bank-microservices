@@ -1,0 +1,41 @@
+import { CLIENT_URL } from 'src/shared/constants/client-url-constant';
+import { HttpDeleteFunction } from 'src/shared/functions/http/delete.function';
+import { HttpGetFunction } from 'src/shared/functions/http/get.function';
+import { HttpPatchFunction } from 'src/shared/functions/http/patch.function';
+import {
+  GetBankAccountDetailsReturn,
+  GetBankAccountByIdReturn,
+} from '../../interfaces/bank-account.interface';
+import { UpdateProfileParams } from '../../interfaces/profile.interface';
+import { Injectable } from '@nestjs/common';
+
+@Injectable()
+export class ProfileUseCase {
+  constructor(
+    private readonly httpGetFunction: HttpGetFunction,
+    private readonly httpPatchFunction: HttpPatchFunction,
+    private readonly httpDeleteFunction: HttpDeleteFunction,
+  ) {}
+
+  async getProfile(id: string): Promise<GetBankAccountDetailsReturn> {
+    return await this.httpGetFunction.requestGet(
+      `${CLIENT_URL}/api/v1/profiles/${id}`,
+    );
+  }
+
+  async updateProfile(
+    id: string,
+    data: UpdateProfileParams,
+  ): Promise<GetBankAccountByIdReturn> {
+    return await this.httpPatchFunction.requestPatch(
+      `${CLIENT_URL}/api/v1/profiles/update/${id}`,
+      data,
+    );
+  }
+
+  async deleteProfile(id: string): Promise<void> {
+    return await this.httpDeleteFunction.requestDelete(
+      `${CLIENT_URL}/api/v1/profiles/delete/${id}`,
+    );
+  }
+}
