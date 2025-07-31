@@ -1,7 +1,6 @@
-import { AuthenticatedRequest } from '@application/use-cases/authentication/route-authentication';
 import { GetBankAccountByIdUseCase } from '@application/use-cases/bank-account/get-by-id/get-bank-account-by-id.use-case';
 import { GetBankAccountByIdReturn } from '@domain/interfaces/bank-account.interfaces';
-import { Controller, Get, Req } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { GetProfileResponses } from '@presentation/swagger/responses/profile/get-profile.response';
 
@@ -12,11 +11,11 @@ export class GetProfileController {
     private readonly getBankAccountByIdUseCase: GetBankAccountByIdUseCase,
   ) {}
 
-  @Get()
+  @Get(':id')
   @GetProfileResponses
   async getById(
-    @Req() req: AuthenticatedRequest,
+    @Param('id') id: string,
   ): Promise<GetBankAccountByIdReturn | void> {
-    return this.getBankAccountByIdUseCase.execute(req.client.id);
+    return this.getBankAccountByIdUseCase.execute(id);
   }
 }
