@@ -6,7 +6,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { GetProfileResponses } from '@presentation/swagger/responses/profile/get-profile.response';
 
 @ApiTags('Profiles')
-@Controller('profile')
+@Controller('profiles')
 export class GetProfileController {
   constructor(
     private readonly getBankAccountByIdUseCase: GetBankAccountByIdUseCase,

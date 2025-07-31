@@ -38,7 +38,7 @@ export class PrismaTransactionRepository implements TransactionRepository {
       id: transaction.id,
       senderId: transaction.senderId,
       receiverId: transaction.receiverId,
-      amount: transaction.amount,
+      amount: Number(transaction.amount),
       status: transaction.status as TransactionStatus,
       createdAt: transaction.createdAt,
       updatedAt: transaction.updatedAt,
@@ -52,6 +52,11 @@ export class PrismaTransactionRepository implements TransactionRepository {
       },
     });
 
-    return transactions;
+    return transactions.map((transaction) => {
+      return {
+        ...transaction,
+        amount: Number(transaction.amount),
+      };
+    });
   }
 }
