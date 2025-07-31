@@ -46,6 +46,6 @@ model BankAccount {
   agency        String
   accountNumber String   @unique
   bankName      String
-  balance       BigInt   @default(0)
+  balance       Int   @default(0)
   client        Client   @relation(fields: [clientId], references: [id])
 }
