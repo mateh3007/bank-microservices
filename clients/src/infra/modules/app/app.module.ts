@@ -6,6 +6,7 @@ import { BankAccountModule } from '../bank-account/bank-account.module';
 import { AuthenticationModule } from '../authentication';
 import { TokenModule } from '../token';
 import { ProfileModule } from '../profile/profile.module';
+import { MessagingModule } from '../messaging/messaging.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { ProfileModule } from '../profile/profile.module';
     BankAccountModule,
     TokenModule,
     ProfileModule,
+    MessagingModule,
   ],
   controllers: [],
   providers: [],

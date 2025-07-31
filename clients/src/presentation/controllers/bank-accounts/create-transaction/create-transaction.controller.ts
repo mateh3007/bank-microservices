@@ -1,0 +1,19 @@
+import { Controller, Post, Body } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
+import { CreateTransactionUseCase } from '@application/use-cases/bank-account/create-transaction/create-transaction.use-case';
+import { CreateTransactionDto } from './dtos/create-bank-account.dto';
+
+@ApiTags('Bank Accounts')
+@Controller('bank-accounts')
+export class CreateTransactionController {
+  constructor(
+    private readonly createTransactionUseCase: CreateTransactionUseCase,
+  ) {}
+
+  @Post('create-transaction')
+  async create(
+    @Body() createTransactionDto: CreateTransactionDto,
+  ): Promise<boolean | void> {
+    return await this.createTransactionUseCase.execute(createTransactionDto);
+  }
+}
