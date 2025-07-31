@@ -4,7 +4,7 @@ import { ApiProperty } from '@nestjs/swagger';
 export class DepositDto {
   @ApiProperty({
     example: 123,
-    description: 'Password (min 6 characters)',
+    description: 'Deposit amount',
   })
   @IsNumber()
   amount: number;

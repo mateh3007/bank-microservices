@@ -6,7 +6,7 @@ export interface ReceivedTransactionData {
   transactionId: string;
   senderId: string;
   receiverId: string;
-  amount: bigint;
+  amount: number;
   createdAt: Date;
 }
 
@@ -22,7 +22,6 @@ export class RabbitMQConsumerUseCase {
   async processTransactionEvent(data: ReceivedTransactionData) {
     try {
       this.logger.log('📥 RECEBIDO evento de transação:', data);
-
       const transaction = await this.transactionRepository.create(data);
       if (!transaction) {
         return this.exceptionsAdapter.internalServerError({

@@ -20,20 +20,17 @@ export class BankAccountUseCase {
   ) {}
 
   async login(payload: LoginDto): Promise<{ accessToken: string } | void> {
-    return await this.httpPostFunction.requestPost(
-      `${CLIENT_URL}/api/v1/auth/login`,
-      {
-        email: payload.email,
-        password: payload.password,
-      },
-    );
+    return await this.httpPostFunction.requestPost(`${CLIENT_URL}/auth/login`, {
+      email: payload.email,
+      password: payload.password,
+    });
   }
 
   async createBankAccount(
     payload: CreateBankAccountDto,
   ): Promise<CreatedBankAccountDto> {
     return this.httpPostFunction.requestPost(
-      `${CLIENT_URL}/api/v1/bank-accounts/create`,
+      `${CLIENT_URL}/bank-accounts/create`,
       {
         ...payload,
       },
@@ -44,7 +41,7 @@ export class BankAccountUseCase {
     payload: CreateTransactionParams,
   ): Promise<boolean | void> {
     return this.httpPostFunction.requestPost(
-      `${CLIENT_URL}/api/v1/bank-accounts/create-transaction`,
+      `${CLIENT_URL}/bank-accounts/create-transaction`,
       {
         ...payload,
       },
@@ -55,7 +52,7 @@ export class BankAccountUseCase {
     payload: DepositParams,
   ): Promise<GetBankAccountDetailsReturn | void> {
     return this.httpPostFunction.requestPost(
-      `${CLIENT_URL}/api/v1/bank-accounts/deposit`,
+      `${CLIENT_URL}/bank-accounts/deposit`,
       {
         ...payload,
       },
@@ -66,19 +63,19 @@ export class BankAccountUseCase {
     id: string,
   ): Promise<GetBankAccountDetailsReturn> {
     return await this.httpGetFunction.requestGet(
-      `${CLIENT_URL}/api/v1/bank-accounts/bank-details/${id}`,
+      `${CLIENT_URL}/bank-accounts/bank-details/${id}`,
     );
   }
 
   async getBankAccount(id: string): Promise<GetBankAccountByIdReturn> {
     return await this.httpGetFunction.requestGet(
-      `${CLIENT_URL}/api/v1/bank-accounts/${id}`,
+      `${CLIENT_URL}/bank-accounts/${id}`,
     );
   }
 
   async verifyIfBankAccountExists(id: string): Promise<boolean> {
     return await this.httpGetFunction.requestGet(
-      `${CLIENT_URL}/api/v1/bank-accounts/verify-exists/${id}`,
+      `${CLIENT_URL}/bank-accounts/verify-exists/${id}`,
     );
   }
 }

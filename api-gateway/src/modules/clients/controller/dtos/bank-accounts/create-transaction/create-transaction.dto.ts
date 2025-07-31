@@ -11,15 +11,8 @@ export class CreateTransactionDto {
   receiverId: string;
 
   @ApiProperty({
-    example: '1231313123',
-    description: 'Id of de sender transaction',
-  })
-  @IsString()
-  senderId: string;
-
-  @ApiProperty({
-    example: 'securePassword123',
-    description: 'Password (min 6 characters)',
+    example: 100,
+    description: 'Deposit Amount',
   })
   @IsNumber()
   amount: number;

@@ -8,6 +8,11 @@ export abstract class TransactionRepository {
   abstract create(
     transaction: CreateTransactionParams,
   ): Promise<CreatedTransactionReturn | void>;
-  abstract getById(id: string): Promise<TransactionEntity | void>;
-  abstract getAllByAccountId(accountId: string): Promise<TransactionEntity[]>;
+  abstract getById(
+    id: string,
+    clientId: string,
+  ): Promise<TransactionEntity | void>;
+  abstract getAllBySenderAccountId(
+    accountId: string,
+  ): Promise<TransactionEntity[]>;
 }

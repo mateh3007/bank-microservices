@@ -13,7 +13,7 @@ import {
 export interface TransactionEventExpectedInput {
   senderId: string;
   receiverId: string;
-  amount: bigint;
+  amount: number;
   description?: string;
 }
 
@@ -67,9 +67,14 @@ export class RabbitMQProducerUseCase implements OnModuleInit, OnModuleDestroy {
 
   async transactionEvent(data: TransactionEventExpectedInput) {
     try {
-      this.logger.log('📤 ENVIANDO evento de transação:', data);
+      const sanitizedData = {
+        ...data,
+        amount: data.amount.toString(),
+      };
 
-      await this.client.emit('', data).toPromise();
+      this.logger.log('📤 ENVIANDO evento de transação:', sanitizedData);
+
+      await this.client.emit('', sanitizedData).toPromise();
 
       this.logger.log('✅ Evento ENVIADO com sucesso!');
     } catch (error) {

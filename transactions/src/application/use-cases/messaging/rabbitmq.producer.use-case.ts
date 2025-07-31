@@ -14,7 +14,7 @@ export interface TransactionEventExpectedInput {
   transactionId: string;
   senderId: string;
   receiverId: string;
-  amount: bigint;
+  amount: number;
   createdAt: Date;
 }
 

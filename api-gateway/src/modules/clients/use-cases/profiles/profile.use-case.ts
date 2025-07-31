@@ -19,7 +19,7 @@ export class ProfileUseCase {
 
   async getProfile(id: string): Promise<GetBankAccountDetailsReturn> {
     return await this.httpGetFunction.requestGet(
-      `${CLIENT_URL}/api/v1/profiles/${id}`,
+      `${CLIENT_URL}/profiles/${id}`,
     );
   }
 
@@ -28,14 +28,14 @@ export class ProfileUseCase {
     data: UpdateProfileParams,
   ): Promise<GetBankAccountByIdReturn> {
     return await this.httpPatchFunction.requestPatch(
-      `${CLIENT_URL}/api/v1/profiles/update/${id}`,
+      `${CLIENT_URL}/profiles/update/${id}`,
       data,
     );
   }
 
   async deleteProfile(id: string): Promise<void> {
     return await this.httpDeleteFunction.requestDelete(
-      `${CLIENT_URL}/api/v1/profiles/delete/${id}`,
+      `${CLIENT_URL}/profiles/delete/${id}`,
     );
   }
 }

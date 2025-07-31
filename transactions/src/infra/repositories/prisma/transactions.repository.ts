@@ -18,6 +18,7 @@ export class PrismaTransactionRepository implements TransactionRepository {
     const transaction = await this.prisma.transaction.create({
       data: {
         ...params,
+        amount: Number(params.amount),
         status: TransactionStatus.pending,
       },
     });
@@ -27,12 +28,20 @@ export class PrismaTransactionRepository implements TransactionRepository {
     return transaction;
   }
 
-  async getById(id: string): Promise<TransactionEntity | void> {
+  async getById(
+    id: string,
+    clientId: string,
+  ): Promise<TransactionEntity | void> {
     const transaction = await this.prisma.transaction.findUnique({
       where: { id },
     });
 
     if (!transaction) return;
+
+    const isOwner =
+      transaction.senderId === clientId || transaction.receiverId === clientId;
+
+    if (!isOwner) return;
 
     return {
       id: transaction.id,
@@ -45,10 +54,12 @@ export class PrismaTransactionRepository implements TransactionRepository {
     };
   }
 
-  async getAllByAccountId(accountId: string): Promise<TransactionEntity[]> {
+  async getAllBySenderAccountId(
+    clientId: string,
+  ): Promise<TransactionEntity[]> {
     const transactions = await this.prisma.transaction.findMany({
       where: {
-        senderId: accountId,
+        OR: [{ senderId: clientId }, { receiverId: clientId }],
       },
     });
 

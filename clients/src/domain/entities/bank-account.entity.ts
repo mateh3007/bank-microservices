@@ -5,5 +5,5 @@ export interface BankAccountEntity extends BaseEntity {
   agency: string;
   accountNumber: string;
   bankName: string;
-  balance: bigint;
+  balance: number;
 }

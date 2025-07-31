@@ -41,7 +41,7 @@ CREATE TABLE "BankAccount" (
     "agency" TEXT NOT NULL,
     "accountNumber" TEXT NOT NULL,
     "bankName" TEXT NOT NULL,
-    "balance" BIGINT NOT NULL DEFAULT 0,
+    "balance" INTEGER NOT NULL DEFAULT 0,
 
     CONSTRAINT "BankAccount_pkey" PRIMARY KEY ("id")
 );

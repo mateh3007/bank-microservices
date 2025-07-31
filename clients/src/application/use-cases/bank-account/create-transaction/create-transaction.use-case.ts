@@ -33,7 +33,7 @@ export class CreateTransactionUseCase {
       });
     }
 
-    if (BigInt(params.amount) > BigInt(senderExists.balance)) {
+    if (params.amount > Number(senderExists.balance)) {
       return this.exceptionsAdapter.badRequest({
         message: 'Insufficient Funds',
       });

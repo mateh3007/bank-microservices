@@ -1,6 +1,6 @@
 import { GetAllTransactionsUseCase } from '@application/use-cases/transactions/get-all/get-all-transactions.use-case';
 import { TransactionEntity } from '@domain/entities/transaction.entity';
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { GetAllTransactionsResponses } from '@presentation/swagger/responses/transactions/get-all-transactions.response';
 
@@ -11,9 +11,9 @@ export class GetAllTransactionController {
     private readonly getAllTransactionsUseCase: GetAllTransactionsUseCase,
   ) {}
 
-  @Get()
+  @Get('get-all/:id')
   @GetAllTransactionsResponses
-  async getAll(clientId: string): Promise<TransactionEntity[]> {
-    return await this.getAllTransactionsUseCase.execute(clientId);
+  async getAll(@Param('id') id: string): Promise<TransactionEntity[]> {
+    return await this.getAllTransactionsUseCase.execute(id);
   }
 }

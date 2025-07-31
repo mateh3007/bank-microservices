@@ -254,7 +254,7 @@ export class PrismaBankAccountRepository implements BankAccountRepository {
           agency: params.agency,
           accountNumber: params.accountNumber,
           bankName: params.bankName,
-          balance: BigInt(0),
+          balance: 0,
         },
       });
 
@@ -321,7 +321,7 @@ export class PrismaBankAccountRepository implements BankAccountRepository {
     });
   }
 
-  async addFunds(clientId: string, amount: bigint): Promise<boolean> {
+  async addFunds(clientId: string, amount: number): Promise<boolean> {
     const bankAccount = await this.prisma.bankAccount.findUnique({
       where: {
         clientId,
@@ -335,28 +335,24 @@ export class PrismaBankAccountRepository implements BankAccountRepository {
         id: bankAccount.id,
       },
       data: {
-        balance: bankAccount.balance + amount,
+        balance: bankAccount.balance + Number(amount),
       },
     });
 
     return true;
   }
 
-  async removeFunds(clientId: string, amount: bigint): Promise<boolean> {
+  async removeFunds(clientId: string, amount: number): Promise<boolean> {
     const bankAccount = await this.prisma.bankAccount.findUnique({
-      where: {
-        clientId,
-      },
+      where: { clientId },
     });
 
     if (!bankAccount) return false;
 
     await this.prisma.bankAccount.update({
-      where: {
-        id: bankAccount.id,
-      },
+      where: { id: bankAccount.id },
       data: {
-        balance: bankAccount.balance - amount,
+        balance: bankAccount.balance - Number(amount),
       },
     });
 
@@ -365,22 +361,18 @@ export class PrismaBankAccountRepository implements BankAccountRepository {
 
   async deposit(
     clientId: string,
-    amount: bigint,
+    amount: number,
   ): Promise<GetBankAccountDetailsReturn | void> {
     const bankAccount = await this.prisma.bankAccount.findUnique({
-      where: {
-        clientId,
-      },
+      where: { clientId },
     });
 
     if (!bankAccount) return;
 
     const updatedBankAccount = await this.prisma.bankAccount.update({
-      where: {
-        id: bankAccount.id,
-      },
+      where: { id: bankAccount.id },
       data: {
-        balance: bankAccount.balance + amount,
+        balance: bankAccount.balance + Number(amount),
       },
     });
 

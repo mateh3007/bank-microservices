@@ -111,8 +111,6 @@ services:
       - redis
       - rabbitmq
     environment:
-      CLIENTS_URL: http://microservice-clients:3010
-      TRANSACTIONS_URL: http://transactions:3012
       REDIS_HOST: redis
       RABBITMQ_URL: amqp://guest:guest@rabbitmq:5672
     ports:
