@@ -14,9 +14,15 @@ import { MessagingModule } from '../messaging/messaging.module';
 import { CreateTransactionUseCase } from '@application/use-cases/bank-account/create-transaction/create-transaction.use-case';
 import { DepositController } from '@presentation/controllers/bank-accounts/deposit/deposit.controller';
 import { DepositUseCase } from '@application/use-cases/bank-account/deposit/deposit.use-case';
+import { RedisCacheModule } from '../redis/redis.module';
 
 @Module({
-  imports: [ExceptionsModule, DatabaseModule, MessagingModule],
+  imports: [
+    ExceptionsModule,
+    DatabaseModule,
+    MessagingModule,
+    RedisCacheModule,
+  ],
   controllers: [
     CreateBankAccountController,
     GetBankAccountByIdController,

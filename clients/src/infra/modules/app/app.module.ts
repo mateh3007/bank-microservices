@@ -7,6 +7,7 @@ import { AuthenticationModule } from '../authentication';
 import { TokenModule } from '../token';
 import { ProfileModule } from '../profile/profile.module';
 import { MessagingModule } from '../messaging/messaging.module';
+import { RedisCacheModule } from '../redis/redis.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { MessagingModule } from '../messaging/messaging.module';
     TokenModule,
     ProfileModule,
     MessagingModule,
+    RedisCacheModule,
   ],
   controllers: [],
   providers: [],
