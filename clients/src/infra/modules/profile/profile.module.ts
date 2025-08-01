@@ -7,9 +7,10 @@ import { UpdateBankAccountController } from '@presentation/controllers/profile/u
 import { UpdateBankAccountUseCase } from '@application/use-cases/profile/update/update-bank-account.use-case';
 import { DeleteBankAccountUseCase } from '@application/use-cases/profile/delete/delete-bank-account.use-case';
 import { DeleteBankAccountController } from '@presentation/controllers/profile/delete/delete-bank-account.controller';
+import { RedisCacheModule } from '../redis/redis.module';
 
 @Module({
-  imports: [ExceptionsModule, DatabaseModule],
+  imports: [ExceptionsModule, DatabaseModule, RedisCacheModule],
   controllers: [
     UpdateBankAccountController,
     GetProfileController,
