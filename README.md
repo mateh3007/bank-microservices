@@ -101,23 +101,17 @@ Caso o projeto fosse executado em produção sem Docker, o processo seria:
 
 Acessar a EC2
 
-bash
-Copiar
-Editar
+```bash
 ssh -i "seu-arquivo.pem" ubuntu@seu-ip
+```
+
 Instalar dependências
-
-Node.js
-
-npm/yarn
-
-pm2
-
-PostgreSQL
-
-RabbitMQ
-
-Redis (se necessário)
+- Node.js
+- npm/yarn
+- pm2
+- PostgreSQL
+- RabbitMQ
+- Redis (se necessário)
 
 Clonar o repositório
 
