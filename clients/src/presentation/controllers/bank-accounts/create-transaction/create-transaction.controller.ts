@@ -13,12 +13,7 @@ export class CreateTransactionController {
 
   @Post('create-transaction')
   @CreateTransactionResponses
-  async create(
-    @Body() createTransactionDto: CreateTransactionDto,
-  ): Promise<boolean | void> {
-    return await this.createTransactionUseCase.execute({
-      ...createTransactionDto,
-      amount: createTransactionDto.amount,
-    });
+  async create(@Body() body: CreateTransactionDto): Promise<boolean | void> {
+    return await this.createTransactionUseCase.execute(body);
   }
 }

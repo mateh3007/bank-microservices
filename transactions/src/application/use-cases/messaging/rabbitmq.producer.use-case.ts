@@ -63,10 +63,10 @@ export class RabbitMQProducerUseCase implements OnModuleInit, OnModuleDestroy {
     }
   }
 
-  async returnFeedbackTransactionEvent(data: TransactionEventExpectedInput) {
+  async returnFeedbackTransactionEvent(payload: TransactionEventExpectedInput) {
     try {
-      this.logger.log('📤 ENVIANDO evento de transação:', data);
-      await this.client.emit('', data).toPromise();
+      this.logger.log('📤 ENVIANDO evento de transação:', payload);
+      await this.client.emit('', payload).toPromise();
       this.logger.log('✅ Evento ENVIADO com sucesso!');
     } catch (error) {
       this.logger.error('❌ ERRO ao enviar evento:', error);

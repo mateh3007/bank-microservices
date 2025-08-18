@@ -6,7 +6,7 @@ import { UpdateBankAccountUseCase } from '@application/use-cases/profile/update/
 import { UpdateProfileResponses } from '@presentation/swagger/responses/profile/update-bank-account.response';
 
 @ApiTags('Profiles')
-@Controller('profile')
+@Controller('profiles')
 export class UpdateBankAccountController {
   constructor(
     private readonly updateBankAccountUseCase: UpdateBankAccountUseCase,
@@ -15,9 +15,9 @@ export class UpdateBankAccountController {
   @Patch('update/:id')
   @UpdateProfileResponses
   async update(
-    @Param('id') id: string,
+    @Param('id') param: string,
     @Body() payload: UpdateBankAccountDto,
   ): Promise<GetBankAccountByIdReturn | void> {
-    return this.updateBankAccountUseCase.execute(id, payload);
+    return this.updateBankAccountUseCase.execute(param, payload);
   }
 }

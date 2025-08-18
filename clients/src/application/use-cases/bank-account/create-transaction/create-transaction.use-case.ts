@@ -12,9 +12,9 @@ export class CreateTransactionUseCase {
     private readonly rabbitmqProducerUseCase: RabbitMQProducerUseCase,
   ) {}
 
-  async execute(params: CreateTransactionParams): Promise<boolean | void> {
+  async execute(payload: CreateTransactionParams): Promise<boolean | void> {
     const senderExists = await this.bankAccountRepository.getByClientId(
-      params.senderId,
+      payload.senderId,
     );
 
     if (!senderExists) {
@@ -24,7 +24,7 @@ export class CreateTransactionUseCase {
     }
 
     const receiverExists = await this.bankAccountRepository.getByClientId(
-      params.receiverId,
+      payload.receiverId,
     );
 
     if (!receiverExists) {
@@ -33,13 +33,13 @@ export class CreateTransactionUseCase {
       });
     }
 
-    if (params.amount > Number(senderExists.balance)) {
+    if (payload.amount > Number(senderExists.balance)) {
       return this.exceptionsAdapter.badRequest({
         message: 'Insufficient Funds',
       });
     }
     try {
-      await this.rabbitmqProducerUseCase.transactionEvent(params);
+      await this.rabbitmqProducerUseCase.transactionEvent(payload);
       return true;
     } catch (err) {
       throw new Error(err);

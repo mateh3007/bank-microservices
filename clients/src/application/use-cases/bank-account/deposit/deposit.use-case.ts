@@ -14,10 +14,10 @@ export class DepositUseCase {
   ) {}
 
   async execute(
-    params: DepositParams,
+    payload: DepositParams,
   ): Promise<GetBankAccountDetailsReturn | void> {
     const bankAccountExists = await this.bankAccountRepository.getByClientId(
-      params.clientId,
+      payload.clientId,
     );
 
     if (!bankAccountExists) {
@@ -28,7 +28,7 @@ export class DepositUseCase {
 
     const updatedBankAccount = await this.bankAccountRepository.deposit(
       bankAccountExists.clientId,
-      params.amount,
+      payload.amount,
     );
 
     return updatedBankAccount;

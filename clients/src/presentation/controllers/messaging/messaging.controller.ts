@@ -13,9 +13,11 @@ export class MessagingController {
 
   @MessagePattern('')
   async receiveTransactionEvent(
-    @Payload() dados: TransactionEventExpectedReceive,
+    @Payload() payload: TransactionEventExpectedReceive,
   ) {
     this.logger.log('🎯 RECEBENDO mensagem: transacao.criada');
-    return await this.rabbitMQConsumerService.processTransactionFeedback(dados);
+    return await this.rabbitMQConsumerService.processTransactionFeedback(
+      payload,
+    );
   }
 }

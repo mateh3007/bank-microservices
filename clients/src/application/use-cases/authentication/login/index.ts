@@ -21,8 +21,10 @@ export class LoginUseCase {
     private readonly validateClientUseCase: ValidateClientUseCase,
   ) {}
 
-  async login({ email, password }: LoginUseCaseParams): LoginUseCaseReturn {
-    const clientExists = await this.clientRepository.getByEmailToLogin(email);
+  async login(payload: LoginUseCaseParams): LoginUseCaseReturn {
+    const clientExists = await this.clientRepository.getByEmailToLogin(
+      payload.email,
+    );
     if (!clientExists) {
       return this.exceptionsAdapter.wrongCredentials();
     }
@@ -32,7 +34,7 @@ export class LoginUseCase {
     if (!isValidClient) return;
 
     const isPasswordValid = await bcrypt.compare(
-      password,
+      payload.password,
       clientExists.password,
     );
     if (!isPasswordValid) {

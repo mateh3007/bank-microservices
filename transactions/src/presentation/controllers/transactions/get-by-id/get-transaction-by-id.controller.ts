@@ -14,9 +14,12 @@ export class GetTransactionByIdController {
   @Get('/:clientId/:id')
   @GetTransactionByIdResponses
   async getById(
-    @Param('id') id: string,
+    @Param('id') transactionId: string,
     @Param('clientId') clientId: string,
   ): Promise<TransactionEntity | void> {
-    return await this.getTransactionByIdUseCase.execute(id, clientId);
+    return await this.getTransactionByIdUseCase.execute({
+      clientId,
+      transactionId,
+    });
   }
 }

@@ -14,8 +14,8 @@ export class GetProfileController {
   @Get(':id')
   @GetProfileResponses
   async getById(
-    @Param('id') id: string,
+    @Param('id') param: string,
   ): Promise<GetBankAccountByIdReturn | void> {
-    return this.getBankAccountByIdUseCase.execute(id);
+    return this.getBankAccountByIdUseCase.execute(param);
   }
 }

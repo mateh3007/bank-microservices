@@ -10,9 +10,9 @@ export class GetBankAccountDetailsByIdUseCase {
     private readonly exceptionsAdapter: ExceptionsAdapter,
   ) {}
 
-  async execute(clientId: string): Promise<GetBankAccountDetailsReturn | void> {
+  async execute(payload: string): Promise<GetBankAccountDetailsReturn | void> {
     const bankAccount =
-      await this.bankAccountRepository.getAccountDetails(clientId);
+      await this.bankAccountRepository.getAccountDetails(payload);
 
     if (!bankAccount) {
       return this.exceptionsAdapter.notFound({

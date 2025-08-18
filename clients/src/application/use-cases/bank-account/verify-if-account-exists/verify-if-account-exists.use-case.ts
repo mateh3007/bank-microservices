@@ -5,9 +5,8 @@ import { Injectable } from '@nestjs/common';
 export class VerifyIfAccountExistsUseCase {
   constructor(private readonly bankAccountRepository: BankAccountRepository) {}
 
-  async execute(clientId: string): Promise<boolean> {
-    const bankAccount =
-      await this.bankAccountRepository.getByClientId(clientId);
+  async execute(payload: string): Promise<boolean> {
+    const bankAccount = await this.bankAccountRepository.getByClientId(payload);
 
     if (!bankAccount) return false;
 

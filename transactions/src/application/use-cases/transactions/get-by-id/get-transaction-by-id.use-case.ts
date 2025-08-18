@@ -10,13 +10,13 @@ export class GetTransactionByIdUseCase {
     private readonly exceptionsAdapter: ExceptionsAdapter,
   ) {}
 
-  async execute(
-    transactionId: string,
-    clientId: string,
-  ): Promise<TransactionEntity | void> {
+  async execute(payload: {
+    transactionId: string;
+    clientId: string;
+  }): Promise<TransactionEntity | void> {
     const transaction = await this.transactionsRepository.getById(
-      transactionId,
-      clientId,
+      payload.transactionId,
+      payload.clientId,
     );
 
     if (!transaction) {

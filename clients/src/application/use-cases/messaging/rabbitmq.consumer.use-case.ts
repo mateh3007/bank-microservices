@@ -19,13 +19,13 @@ export class RabbitMQConsumerUseCase {
     private readonly exceptionsAdapter: ExceptionsAdapter,
   ) {}
 
-  async processTransactionFeedback(data: TransactionEventExpectedReceive) {
+  async processTransactionFeedback(payload: TransactionEventExpectedReceive) {
     try {
       this.logger.log('📥 RECEBIDO evento de transação');
 
       const receiverAddFundsRes = await this.bankAccountRepository.addFunds(
-        data.receiverId,
-        data.amount,
+        payload.receiverId,
+        payload.amount,
       );
       if (!receiverAddFundsRes) {
         return this.exceptionsAdapter.notFound({
@@ -34,8 +34,8 @@ export class RabbitMQConsumerUseCase {
       }
 
       const senderRemoveFundsRes = await this.bankAccountRepository.removeFunds(
-        data.senderId,
-        data.amount,
+        payload.senderId,
+        payload.amount,
       );
       if (!senderRemoveFundsRes) {
         return this.exceptionsAdapter.notFound({

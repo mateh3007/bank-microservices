@@ -19,10 +19,10 @@ export class RabbitMQConsumerUseCase {
     private readonly exceptionsAdapter: ExceptionsAdapter,
   ) {}
 
-  async processTransactionEvent(data: ReceivedTransactionData) {
+  async processTransactionEvent(payload: ReceivedTransactionData) {
     try {
-      this.logger.log('📥 RECEBIDO evento de transação:', data);
-      const transaction = await this.transactionRepository.create(data);
+      this.logger.log('📥 RECEBIDO evento de transação:', payload);
+      const transaction = await this.transactionRepository.create(payload);
       if (!transaction) {
         return this.exceptionsAdapter.internalServerError({
           message: 'Error on create transaction',

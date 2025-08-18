@@ -14,8 +14,8 @@ export class GetBankAccountDetailsByIdController {
   @Get('bank-details/:id')
   @GetBankAccountDetailsByIdResponses
   async getById(
-    @Param('id') id: string,
+    @Param('id') param: string,
   ): Promise<GetBankAccountDetailsReturn | void> {
-    return this.getBankAccountDetailsByIdUseCase.execute(id);
+    return this.getBankAccountDetailsByIdUseCase.execute(param);
   }
 }

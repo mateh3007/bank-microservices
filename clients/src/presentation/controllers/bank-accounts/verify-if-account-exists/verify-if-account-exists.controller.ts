@@ -10,7 +10,7 @@ export class VerifyIfAccountExistsController {
   ) {}
 
   @Get('verify-exists/:id')
-  async getById(@Param('id') id: string): Promise<boolean> {
-    return this.verifyIfAccountExistsUseCase.execute(id);
+  async getById(@Param('id') param: string): Promise<boolean> {
+    return this.verifyIfAccountExistsUseCase.execute(param);
   }
 }

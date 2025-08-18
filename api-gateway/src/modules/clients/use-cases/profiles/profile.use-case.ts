@@ -25,11 +25,11 @@ export class ProfileUseCase {
 
   async updateProfile(
     id: string,
-    data: UpdateProfileParams,
+    payload: UpdateProfileParams,
   ): Promise<GetBankAccountByIdReturn> {
     return await this.httpPatchFunction.requestPatch(
       `${CLIENT_URL}/profiles/update/${id}`,
-      data,
+      payload,
     );
   }
 

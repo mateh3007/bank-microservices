@@ -6,9 +6,9 @@ import { Injectable } from '@nestjs/common';
 export class GetAllTransactionsUseCase {
   constructor(private readonly transactionsRepository: TransactionRepository) {}
 
-  async execute(accountId: string): Promise<TransactionEntity[]> {
+  async execute(payload: string): Promise<TransactionEntity[]> {
     const transactions =
-      await this.transactionsRepository.getAllBySenderAccountId(accountId);
+      await this.transactionsRepository.getAllBySenderAccountId(payload);
 
     return transactions;
   }

@@ -10,13 +10,13 @@ export class ValidateClientUseCase {
     private readonly clientRepository: ClientRepository,
   ) {}
 
-  async validate(client: ClientEntity): Promise<ClientEntity | void> {
-    const clientExists = await this.clientRepository.getById(client.id);
+  async validate(payload: ClientEntity): Promise<ClientEntity | void> {
+    const clientExists = await this.clientRepository.getById(payload.id);
     if (!clientExists)
       return this.exceptionsAdapter.notFound({
         message: 'Client not found',
       });
 
-    return client;
+    return payload;
   }
 }

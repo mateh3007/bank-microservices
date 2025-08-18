@@ -60,22 +60,22 @@ export class BankAccountUseCase {
   }
 
   async getBankAccountDetails(
-    id: string,
+    payload: string,
   ): Promise<GetBankAccountDetailsReturn> {
     return await this.httpGetFunction.requestGet(
-      `${CLIENT_URL}/bank-accounts/bank-details/${id}`,
+      `${CLIENT_URL}/bank-accounts/bank-details/${payload}`,
     );
   }
 
-  async getBankAccount(id: string): Promise<GetBankAccountByIdReturn> {
+  async getBankAccount(payload: string): Promise<GetBankAccountByIdReturn> {
     return await this.httpGetFunction.requestGet(
-      `${CLIENT_URL}/bank-accounts/${id}`,
+      `${CLIENT_URL}/bank-accounts/${payload}`,
     );
   }
 
-  async verifyIfBankAccountExists(id: string): Promise<boolean> {
+  async verifyIfBankAccountExists(payload: string): Promise<boolean> {
     return await this.httpGetFunction.requestGet(
-      `${CLIENT_URL}/bank-accounts/verify-exists/${id}`,
+      `${CLIENT_URL}/bank-accounts/verify-exists/${payload}`,
     );
   }
 }

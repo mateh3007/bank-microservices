@@ -17,9 +17,9 @@ export class TransactionController {
   @ApiBearerAuth()
   @Get(':id')
   async getTransactionById(
-    @Param('id') transactionId: string,
+    @Param('id') param: string,
     @Client('clientId') clientId: string,
   ) {
-    return this.transactionUseCase.getTransactionById(transactionId, clientId);
+    return this.transactionUseCase.getTransactionById(param, clientId);
   }
 }

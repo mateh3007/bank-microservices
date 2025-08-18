@@ -13,7 +13,7 @@ export class GetAllTransactionController {
 
   @Get('get-all/:id')
   @GetAllTransactionsResponses
-  async getAll(@Param('id') id: string): Promise<TransactionEntity[]> {
-    return await this.getAllTransactionsUseCase.execute(id);
+  async getAll(@Param('id') param: string): Promise<TransactionEntity[]> {
+    return await this.getAllTransactionsUseCase.execute(param);
   }
 }

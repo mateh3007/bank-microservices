@@ -15,8 +15,8 @@ export class CreateBankAccountController {
   @Post('create')
   @CreateBankAccountResponses
   async create(
-    @Body() createBankAccountDto: CreateBankAccountDto,
+    @Body() body: CreateBankAccountDto,
   ): Promise<CreatedBankAccountDto | void> {
-    return await this.createBankAccountUseCase.execute(createBankAccountDto);
+    return await this.createBankAccountUseCase.execute(body);
   }
 }

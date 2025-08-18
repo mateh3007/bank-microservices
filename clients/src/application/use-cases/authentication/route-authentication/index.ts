@@ -19,8 +19,8 @@ export class RouteAuthenticationUseCase {
     private readonly tokenService: TokenAdapter,
   ) {}
 
-  public async validate(request: AuthenticatedRequest): Promise<boolean> {
-    const bearerToken = request?.headers?.authorization;
+  public async validate(payload: AuthenticatedRequest): Promise<boolean> {
+    const bearerToken = payload?.headers?.authorization;
 
     if (!bearerToken) return false;
 
@@ -36,7 +36,7 @@ export class RouteAuthenticationUseCase {
 
     if (!client) return false;
 
-    request.client = client;
+    payload.client = client;
 
     return true;
   }

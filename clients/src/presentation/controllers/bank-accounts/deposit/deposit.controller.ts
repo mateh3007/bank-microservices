@@ -13,11 +13,8 @@ export class DepositController {
   @Post('deposit')
   @DepositResponses
   async create(
-    @Body() depositDto: DepositDto,
+    @Body() body: DepositDto,
   ): Promise<GetBankAccountDetailsReturn | void> {
-    return await this.depositUseCase.execute({
-      clientId: depositDto.clientId,
-      amount: depositDto.amount,
-    });
+    return await this.depositUseCase.execute(body);
   }
 }

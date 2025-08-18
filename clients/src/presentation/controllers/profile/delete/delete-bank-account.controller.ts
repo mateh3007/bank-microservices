@@ -12,7 +12,7 @@ export class DeleteBankAccountController {
 
   @Delete('delete/:id')
   @DeleteBankAccountResponses
-  async delete(@Param('id') id: string): Promise<void> {
-    return this.deleteBankAccountUseCase.execute(id);
+  async delete(@Param('id') param: string): Promise<void> {
+    return this.deleteBankAccountUseCase.execute(param);
   }
 }
